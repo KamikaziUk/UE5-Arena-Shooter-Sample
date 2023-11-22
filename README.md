@@ -11,6 +11,8 @@ I am a relatively new UE5 programmer, any comments or feedback on how to improve
 
 ## Current Version 0.1
 
+![](https://github.com/KamikaziUk/UE5-Arena-Shooter-Sample/blob/main/Demo.gif)
+
 ## Current Feature List
 - Flexible weapon system
 - Flexible projectile system
