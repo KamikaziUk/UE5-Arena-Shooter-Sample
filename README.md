@@ -3,6 +3,8 @@ I created this sample project for C++ developers to learn & understand Unreal En
 
 I am a relatively new UE5 programmer, any comments or feedback on how to improve would be great. 
 
+## Current Version 0.1
+
 ## Current Feature List
 - Flexible weapon system
 - Flexible projectile system
