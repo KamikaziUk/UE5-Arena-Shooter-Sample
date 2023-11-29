@@ -1,7 +1,7 @@
 # UE5 Arena/Boomer Shooter Sample
 I created this sample project for C++ developers to learn & understand Unreal Engine 5. The project features many elements to start creating your own boomer shooter in UE5. I will be improving it over time with more features and improving systems. Feel free to use the project to make your own game or learn how to use C++ to develop your own game.
 
-I am a relatively new UE5 programmer, any comments or feedback on how to improve would be great. 
+Any comments or feedback on how to improve would be great!
 
 ## Installation
 - Clone or download the project
