@@ -77,7 +77,7 @@ void ABoomerShooterCharacter::BeginPlay()
 	}
 
 	CurrentWeapon = nullptr;
-	UpdateWeapon(0);
+	UpdateWeapon(1);
 
 	auto MovementComponent = FindComponentByClass(UCharacterMovementComponent::StaticClass());
 	if(IsValid(MovementComponent))
