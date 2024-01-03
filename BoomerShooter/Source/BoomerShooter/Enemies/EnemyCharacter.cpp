@@ -33,6 +33,11 @@
 AEnemyCharacter::AEnemyCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
+
+	Health = {};
+	World = nullptr;
+	Player = nullptr;
+	SpawnerManager = nullptr;
 }
 
 void AEnemyCharacter::BeginPlay()

@@ -36,7 +36,18 @@
 AWeapon::AWeapon()
 {
 	PrimaryActorTick.bCanEverTick = true;
+
 	CameraRaycastOffset = FVector(100.0f, 0.0f, 10.0f);
+	TargetRelativeLocation = {};
+	Character = nullptr;
+	CurrentShootTime = {};
+	CurrentSpringVelocity = {};
+	FirePressed = {};
+	CurrentRoll = {};
+	CrosshairHitTime = {};
+	ChangeWeaponTime = {};
+	World = nullptr;
+	PlayerController = nullptr;
 
 	auto ParentChild = CreateDefaultSubobject<USceneComponent>(TEXT("Parent"));
 	RootComponent = ParentChild;

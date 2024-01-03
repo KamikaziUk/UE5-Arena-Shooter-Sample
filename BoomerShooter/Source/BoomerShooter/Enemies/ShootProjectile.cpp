@@ -31,6 +31,10 @@
 UShootProjectile::UShootProjectile()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+
+	CurrentTime = {};
+	CurrentShootTimer = {};
+	World = nullptr;
 }
 
 void UShootProjectile::BeginPlay()

@@ -29,6 +29,10 @@
 AEnemySpawnerManager::AEnemySpawnerManager()
 {
 	PrimaryActorTick.bCanEverTick = true;
+
+	CurrentWave = {};
+	CurrentWaveCharacters = {};
+	World = nullptr;
 }
 
 void AEnemySpawnerManager::BeginPlay()

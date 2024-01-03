@@ -44,6 +44,27 @@ ABoomerShooterCharacter::ABoomerShooterCharacter()
 	CameraBobSpeed = 0.01f;
 	CameraBobHeight = 20.0f;
 	CameraBobFallOff = 10.0f;
+
+	CameraRelativeLocation = {};
+	BobVelocity = {};
+	BobTime = {};
+	CanDash = {};
+
+	for(int i = 0; i < 4; i++)
+	{
+		DamageDirectionUI[i] = 0;
+	}
+
+	MovementVector = {};
+	LevelTimer = {};
+	Score = {};
+	Combo = {};
+	Health = {};
+
+	SpawnerManager = nullptr;
+	CharacterMovement = nullptr;
+	CurrentWeapon = nullptr;
+	World = nullptr;
 }
 
 void ABoomerShooterCharacter::BeginPlay()
