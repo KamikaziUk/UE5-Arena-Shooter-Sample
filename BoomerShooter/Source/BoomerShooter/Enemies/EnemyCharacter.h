@@ -29,10 +29,12 @@
 #include "EnemyNavigationPoint.h"
 
 #include "GameFramework/Character.h"
+#include "Sound/SoundBase.h"
 
 #include "EnemyCharacter.generated.h"
 
 class ABoomerShooterCharacter;
+class AEnemySpawnerManager;
 
 UCLASS()
 class BOOMERSHOOTER_API AEnemyCharacter : public ACharacter
@@ -56,6 +58,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Navigation)
 	AActor* LineMoverEndPoint;
 
+	UPROPERTY(EditDefaultsOnly, Category = Effects)
+	USoundBase* DamageAudio;
+
 	void DamageEnemy(int BulletDamage);
 	bool IsDead();
 
@@ -69,4 +74,5 @@ private:
 	int Health;
 	UWorld* World;
 	ABoomerShooterCharacter* Player;
+	AEnemySpawnerManager* SpawnerManager;
 };

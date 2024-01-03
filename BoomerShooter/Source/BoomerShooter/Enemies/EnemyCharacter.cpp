@@ -33,6 +33,11 @@
 AEnemyCharacter::AEnemyCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
+
+	Health = {};
+	World = nullptr;
+	Player = nullptr;
+	SpawnerManager = nullptr;
 }
 
 void AEnemyCharacter::BeginPlay()
@@ -42,6 +47,7 @@ void AEnemyCharacter::BeginPlay()
 
 	World = GetWorld();
 	Player = Cast<ABoomerShooterCharacter>(UGameplayStatics::GetPlayerCharacter(World, 0));
+	SpawnerManager = nullptr;
 }
 
 void AEnemyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -68,9 +74,20 @@ void AEnemyCharacter::DamageEnemy(int BulletDamage)
 {
 	Health -= BulletDamage;
 
+	if(IsValid(DamageAudio))
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, DamageAudio, GetActorLocation());
+	}
+
 	if(IsDead())
 	{
+		if(!IsValid(SpawnerManager))
+		{
+			SpawnerManager = Player->GetSpawnManager();
+		}
+
 		Player->KilledEnemy(PlayerScoreIncreaseOnKilled);
+		SpawnerManager->UpdateEnemies();
 		Destroy();
 	}
 }

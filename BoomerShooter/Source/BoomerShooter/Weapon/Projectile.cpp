@@ -36,6 +36,12 @@ AProjectile::AProjectile()
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	RootComponent = Mesh;
+
+	PreviousLocation = {};
+	SpawnerManager = {};
+	World = nullptr;
+	PlayerActor = nullptr;
+	PlayerCharacter = nullptr;
 }
 
 void AProjectile::BeginPlay()
@@ -69,7 +75,7 @@ void AProjectile::Tick(float DeltaTime)
 
 	Mesh->SetPhysicsLinearVelocity(Mesh->GetForwardVector() * Speed * DeltaTime);
 
-	if(World != nullptr && PlayerActor != nullptr)
+	if(IsValid(World) && IsValid(PlayerActor))
 	{
 		FVector RayOrigin = Mesh->GetComponentLocation();
 		FVector RayEnd = PreviousLocation;
@@ -83,7 +89,10 @@ void AProjectile::Tick(float DeltaTime)
 			// Add all the enemies actors, so the player doesn't hit them
 			for(int i = 0; i < EnemyActors.Num(); i++)
 			{
-				TraceParams.AddIgnoredActor(EnemyActors[i]);
+				if(IsValid(EnemyActors[i]))
+				{
+					TraceParams.AddIgnoredActor(EnemyActors[i]);
+				}
 			}
 		}
 		else
@@ -131,23 +140,28 @@ void AProjectile::Tick(float DeltaTime)
 
 		AActor* ActorHit = Hit.GetActor();
 
-		if(ActorHit != nullptr)
+		if(IsValid(ActorHit))
 		{
 			if(ProjectileType == EProjectileType::Rocket)
 			{
 				FActorSpawnParameters ActorSpawnParams;
 				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
-				if(Explosion != nullptr)
+				if(IsValid(Explosion))
 				{
 					auto ExplosionActor = World->SpawnActor<AActor>(Explosion,
 						ActorHit->GetActorLocation(), ActorHit->GetActorRotation(), ActorSpawnParams);
 					ExplosionActor->SetActorLocationAndRotation(Hit.ImpactPoint, FQuat::Identity);
+
+					if(IsValid(ExplosionAudio))
+					{
+						UGameplayStatics::PlaySoundAtLocation(this, ExplosionAudio, GetActorLocation());
+					}
 				}
 
 				if(EnemyBullet)
 				{	
-					if(PlayerCharacter != nullptr && ActorHit == PlayerCharacter)
+					if(IsValid(PlayerCharacter) && ActorHit == PlayerCharacter)
 					{
 						PlayerCharacter->TookDamage(BulletDamage, GetActorLocation());
 					}
@@ -164,18 +178,21 @@ void AProjectile::Tick(float DeltaTime)
 
 					for(int i = 0; i < EnemyActors.Num(); i++)
 					{
-						auto ActorPos = EnemyActors[i]->GetActorLocation();
-
-						if(FVector::Distance(Hit.ImpactPoint, ActorPos) <= DamageRadius)
+						if(IsValid(EnemyActors[i]))
 						{
-							auto EnemyCharacter = EnemyActors[i];
-							EnemyCharacter->DamageEnemy(BulletDamage);
+							auto ActorPos = EnemyActors[i]->GetActorLocation();
 
-							if(EnemyHit != nullptr)
+							if(FVector::Distance(Hit.ImpactPoint, ActorPos) <= DamageRadius)
 							{
-								auto SpawnedActor = World->SpawnActor<AActor>(EnemyHit,
-									EnemyActors[i]->GetActorLocation(), EnemyActors[i]->GetActorRotation(), ActorSpawnParams);
-								SpawnedActor->SetActorLocationAndRotation(ActorPos, Rotation);
+								auto EnemyCharacter = EnemyActors[i];
+								EnemyCharacter->DamageEnemy(BulletDamage);
+
+								if(IsValid(EnemyHit))
+								{
+									auto SpawnedActor = World->SpawnActor<AActor>(EnemyHit,
+										EnemyActors[i]->GetActorLocation(), EnemyActors[i]->GetActorRotation(), ActorSpawnParams);
+									SpawnedActor->SetActorLocationAndRotation(ActorPos, Rotation);
+								}
 							}
 						}
 					}

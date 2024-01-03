@@ -26,6 +26,10 @@
 UMoveBetweenPoints::UMoveBetweenPoints()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+
+	CurrentPoint = {};
+	CurrentMoveTime = {};
+	CurrentStopTime = {};
 }
 
 void UMoveBetweenPoints::BeginPlay()

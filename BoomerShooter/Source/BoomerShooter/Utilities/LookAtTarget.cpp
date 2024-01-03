@@ -29,6 +29,7 @@
 ULookAtTarget::ULookAtTarget()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+	Player = nullptr;
 }
 
 void ULookAtTarget::BeginPlay()
@@ -42,7 +43,7 @@ void ULookAtTarget::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	FVector TargetPosition = FVector::ZeroVector;
-	if(FollowActor != nullptr)
+	if(IsValid(FollowActor))
 	{
 		TargetPosition = FollowActor->GetActorLocation();
 	}

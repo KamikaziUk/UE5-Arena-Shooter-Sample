@@ -30,6 +30,9 @@
 UExplodeWithinRange::UExplodeWithinRange()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+
+	World = nullptr;
+	Player = nullptr;
 }
 
 void UExplodeWithinRange::BeginPlay()
@@ -43,12 +46,12 @@ void UExplodeWithinRange::TickComponent(float DeltaTime, ELevelTick TickType, FA
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if(World != nullptr && Player != nullptr)
+	if(IsValid(World) && IsValid(Player))
 	{	
 		auto PlayerPos = Player->GetActorLocation();
 
 		float DistanceToPlayer = FVector::Distance(PlayerPos, GetComponentLocation());
-		if(DistanceToPlayer <= ExplodeRadius && Explosion != nullptr)
+		if(DistanceToPlayer <= ExplodeRadius && IsValid(Explosion))
 		{
 			FActorSpawnParameters ActorSpawnParams;
 			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;

@@ -36,7 +36,18 @@
 AWeapon::AWeapon()
 {
 	PrimaryActorTick.bCanEverTick = true;
+
 	CameraRaycastOffset = FVector(100.0f, 0.0f, 10.0f);
+	TargetRelativeLocation = {};
+	Character = nullptr;
+	CurrentShootTime = {};
+	CurrentSpringVelocity = {};
+	FirePressed = {};
+	CurrentRoll = {};
+	CrosshairHitTime = {};
+	ChangeWeaponTime = {};
+	World = nullptr;
+	PlayerController = nullptr;
 
 	auto ParentChild = CreateDefaultSubobject<USceneComponent>(TEXT("Parent"));
 	RootComponent = ParentChild;
@@ -86,17 +97,22 @@ float AWeapon::GetCrosshairScale()
 
 void AWeapon::Fire()
 {
-	if(Character == nullptr || Character->GetController() == nullptr)
+	if(!IsValid(Character) || !IsValid(Character->GetController()))
 	{
 		return;
 	}
 
-	//if(ParticleComponent != nullptr)
+	//if(IsValid(ParticleComponent))
 	//{
 	//	ParticleComponent->ResetParticles();
 	//	ParticleComponent->ForceReset();
 	//	ParticleComponent->Activate();
 	//}
+
+	if(IsValid(ShootAudio))
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, ShootAudio, GetActorLocation());
+	}
 
 	const FRotator SpawnRotation = PlayerController->PlayerCameraManager->GetCameraRotation();
 	const FVector SpawnLocation = Character->GetActorLocation() + SpawnRotation.RotateVector(CameraRaycastOffset);
@@ -118,7 +134,7 @@ void AWeapon::Fire()
 			(PlayerCam->GetRightVector() * RandomRight) +
 			(PlayerCam->GetUpVector() * RandomUp);
 
-		if(Projectile != nullptr)
+		if(IsValid(Projectile))
 		{
 			// Projectile shooting
 			FActorSpawnParameters ActorSpawnParams;
@@ -161,7 +177,7 @@ void AWeapon::Fire()
 			FVector TraceEnd = RayEnd;
 
 			AActor* ActorHit = Hit.GetActor();
-			if(ActorHit != nullptr)
+			if(IsValid(ActorHit))
 			{
 				bool HitEnemy = false;
 				FVector HitNormal = Hit.ImpactNormal;
@@ -184,7 +200,7 @@ void AWeapon::Fire()
 
 				// Spawn VFX (Blood or Ground)
 				auto SpawnActor = HitEnemy ? EnemyHit : GroundHit;
-				if(SpawnActor != nullptr)
+				if(IsValid(SpawnActor))
 				{
 					auto UpDirection = FVector(0, 0, 1);
 					if(UKismetMathLibrary::Dot_VectorVector(UpDirection, HitNormal) > 0.9f)
@@ -194,6 +210,14 @@ void AWeapon::Fire()
 
 					auto Rotation = UKismetMathLibrary::MakeRotFromXZ(HitNormal, FVector::CrossProduct(HitNormal, UpDirection));
 					auto SpawnedActor = World->SpawnActor<AActor>(SpawnActor, Hit.ImpactPoint, Rotation, ActorSpawnParams);
+				}
+
+				if(!HitEnemy)
+				{
+					if(IsValid(HitSurfaceAudio))
+					{
+						UGameplayStatics::PlaySoundAtLocation(this, HitSurfaceAudio, TraceEnd);
+					}
 				}
 			}
 
@@ -225,7 +249,7 @@ void AWeapon::SpawnWeapon(ABoomerShooterCharacter* TargetCharacter)
 
 	ChangeWeaponTime = 0.3f;
 
-	if(TargetCharacter == nullptr)
+	if(!IsValid(TargetCharacter))
 	{
 		return;
 	}
@@ -284,7 +308,7 @@ void AWeapon::Tick(float DeltaTime)
 		}
 
 		// Minigun rotation
-		if (SkeletalMesh != nullptr && SpinWeapon)
+		if (IsValid(SkeletalMesh) && SpinWeapon)
 		{
 			CurrentRoll = (CurrentRoll + DeltaTime * 700);
 			if(CurrentRoll > 360.0f)

@@ -44,6 +44,27 @@ ABoomerShooterCharacter::ABoomerShooterCharacter()
 	CameraBobSpeed = 0.01f;
 	CameraBobHeight = 20.0f;
 	CameraBobFallOff = 10.0f;
+
+	CameraRelativeLocation = {};
+	BobVelocity = {};
+	BobTime = {};
+	CanDash = {};
+
+	for(int i = 0; i < 4; i++)
+	{
+		DamageDirectionUI[i] = 0;
+	}
+
+	MovementVector = {};
+	LevelTimer = {};
+	Score = {};
+	Combo = {};
+	Health = {};
+
+	SpawnerManager = nullptr;
+	CharacterMovement = nullptr;
+	CurrentWeapon = nullptr;
+	World = nullptr;
 }
 
 void ABoomerShooterCharacter::BeginPlay()
@@ -76,10 +97,11 @@ void ABoomerShooterCharacter::BeginPlay()
 		UE_LOG(LogTemp, Warning, TEXT("Can't find enemy spawn manager"));
 	}
 
-	UpdateWeapon(0);
+	CurrentWeapon = nullptr;
+	UpdateWeapon(1);
 
 	auto MovementComponent = FindComponentByClass(UCharacterMovementComponent::StaticClass());
-	if(MovementComponent != nullptr)
+	if(IsValid(MovementComponent))
 	{
 		CharacterMovement = Cast<UCharacterMovementComponent>(MovementComponent);
 	}
@@ -96,7 +118,7 @@ void ABoomerShooterCharacter::SetupPlayerInputComponent(class UInputComponent* P
 	if(UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
 	{
 		//Jumping
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ABoomerShooterCharacter::JumpInput);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
 
 		//Moving
@@ -125,7 +147,7 @@ void ABoomerShooterCharacter::Move(const FInputActionValue& Value)
 {
 	MovementVector = Value.Get<FVector2D>();
 
-	if(Controller != nullptr)
+	if(IsValid(Controller))
 	{
 		AddMovementInput(GetActorForwardVector(), MovementVector.Y);
 		AddMovementInput(GetActorRightVector(), MovementVector.X);
@@ -136,11 +158,24 @@ void ABoomerShooterCharacter::Look(const FInputActionValue& Value)
 {
 	FVector2D LookAxisVector = Value.Get<FVector2D>();
 
-	if(Controller != nullptr)
+	if(IsValid(Controller))
 	{
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+void ABoomerShooterCharacter::JumpInput(const FInputActionValue& Value)
+{
+	if(this->CanJump())
+	{
+		if(IsValid(JumpAudio))
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, JumpAudio, GetActorLocation());
+		}
+	}
+
+	this->Jump();
 }
 
 void ABoomerShooterCharacter::Dash(const FInputActionValue& Value)
@@ -158,6 +193,11 @@ void ABoomerShooterCharacter::Dash(const FInputActionValue& Value)
 
 		CharacterBase->LaunchCharacter(LaunchDir * DashVelocity, false, false);
 		CanDash = false;
+
+		if(IsValid(DashAudio))
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, DashAudio, GetActorLocation());
+		}
 	}
 }
 
@@ -183,7 +223,7 @@ void ABoomerShooterCharacter::ChangeWeapon4(const FInputActionValue& Value)
 
 void ABoomerShooterCharacter::FireInputStart()
 {
-	if(CurrentWeapon != nullptr)
+	if(IsValid(CurrentWeapon))
 	{
 		CurrentWeapon->SetFirePressed(true);
 	}
@@ -191,7 +231,7 @@ void ABoomerShooterCharacter::FireInputStart()
 
 void ABoomerShooterCharacter::FireInputCancelled()
 {
-	if(CurrentWeapon != nullptr)
+	if(IsValid(CurrentWeapon))
 	{
 		CurrentWeapon->SetFirePressed(false);
 	}
@@ -199,7 +239,7 @@ void ABoomerShooterCharacter::FireInputCancelled()
 
 void ABoomerShooterCharacter::UpdateWeapon(int WeaponId)
 {
-	if(World != nullptr)
+	if(IsValid(World))
 	{
 		if(WeaponId < 0 || WeaponId >= Weapons.Num())
 		{
@@ -213,9 +253,10 @@ void ABoomerShooterCharacter::UpdateWeapon(int WeaponId)
 		FActorSpawnParameters ActorSpawnParams;
 		ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
-		if(CurrentWeapon != nullptr)
+		if(IsValid(CurrentWeapon))
 		{
 			CurrentWeapon->Destroy();
+			CurrentWeapon = nullptr;
 		}
 
 		CurrentWeapon = World->SpawnActor<AWeapon>(Weapons[WeaponId], SpawnLocation, SpawnRotation, ActorSpawnParams);
@@ -225,7 +266,7 @@ void ABoomerShooterCharacter::UpdateWeapon(int WeaponId)
 
 bool ABoomerShooterCharacter::IsWeaponShooting()
 {
-	if(CurrentWeapon != nullptr)
+	if(IsValid(CurrentWeapon))
 	{
 		return CurrentWeapon->IsShooting();
 	}
@@ -236,6 +277,11 @@ bool ABoomerShooterCharacter::IsWeaponShooting()
 void ABoomerShooterCharacter::Landed(const FHitResult& Hit)
 {
 	CanDash = true;
+
+	if(IsValid(JumpLandAudio))
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, JumpLandAudio, GetActorLocation());
+	}
 }
 
 void ABoomerShooterCharacter::Tick(float DeltaTime)
@@ -291,6 +337,11 @@ void ABoomerShooterCharacter::TookDamage(int Damage, FVector DamageLocation)
 	Combo = 0;
 	Health -= Damage;
 
+	if(IsValid(TakeDamageAudio))
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, TakeDamageAudio, GetActorLocation());
+	}
+
 	auto DirectionToTarget = DamageLocation - GetActorLocation();
 
 	auto ForwardDot = FVector::DotProduct(FirstPersonCameraComponent->GetForwardVector(), DirectionToTarget);
@@ -321,7 +372,7 @@ void ABoomerShooterCharacter::TookDamage(int Damage, FVector DamageLocation)
 
 	if(Health <= 0)
 	{
-		// TODO: Game over
+		UGameplayStatics::OpenLevel(World, LevelToLoadOnDeath);
 	}
 }
 

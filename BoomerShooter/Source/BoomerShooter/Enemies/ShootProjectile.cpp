@@ -26,10 +26,15 @@
 #include "../Weapon/Projectile.h"
 
 #include "Math/UnrealMathUtility.h"
+#include "Kismet/GameplayStatics.h"
 
 UShootProjectile::UShootProjectile()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+
+	CurrentTime = {};
+	CurrentShootTimer = {};
+	World = nullptr;
 }
 
 void UShootProjectile::BeginPlay()
@@ -42,13 +47,13 @@ void UShootProjectile::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if(World != nullptr)
+	if(IsValid(World))
 	{
 		CurrentTime -= DeltaTime;
 		CurrentShootTimer += DeltaTime;
 
 		// Shooting
-		if(CurrentShootTimer >= ShootTime && Projectile != nullptr)
+		if(CurrentShootTimer >= ShootTime && IsValid(Projectile))
 		{
 			CurrentShootTimer = 0.0f;
 
@@ -60,6 +65,11 @@ void UShootProjectile::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 				GetComponentLocation(),
 				GetComponentRotation(), ActorSpawnParams);
 			ProjectileSpawned->BulletDamage = Damage;
+
+			if(IsValid(ShootAudio))
+			{
+				UGameplayStatics::PlaySoundAtLocation(this, ShootAudio, GetComponentLocation());
+			}
 		}
 	}
 }
