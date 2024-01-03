@@ -50,6 +50,9 @@ class ABoomerShooterCharacter : public ACharacter
 	GENERATED_BODY()
 
 	// User properties
+	UPROPERTY(EditDefaultsOnly, Category = Loading)
+	FName LevelToLoadOnDeath;
+
 	UPROPERTY(EditDefaultsOnly, Category = Weapon)
 	TArray<TSubclassOf<class AWeapon>> Weapons;
 

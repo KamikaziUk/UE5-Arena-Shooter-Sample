@@ -23,7 +23,6 @@
 
 #include "EnemySpawnerManager.h"
 
-#include "Kismet/GameplayStatics.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
 
 AEnemySpawnerManager::AEnemySpawnerManager()
@@ -96,10 +95,6 @@ void AEnemySpawnerManager::SpawnWave()
 					CurrentWaveCharacters.Add(EnemyCharacter);
 				}
 			}
-		}
-		else
-		{
-			UGameplayStatics::OpenLevel(World, LevelToComplete);
 		}
 	}
 }

@@ -351,7 +351,7 @@ void ABoomerShooterCharacter::TookDamage(int Damage, FVector DamageLocation)
 
 	if(Health <= 0)
 	{
-		// TODO: Game over
+		UGameplayStatics::OpenLevel(World, LevelToLoadOnDeath);
 	}
 }
 

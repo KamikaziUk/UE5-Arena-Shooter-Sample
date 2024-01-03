@@ -69,9 +69,6 @@ class BOOMERSHOOTER_API AEnemySpawnerManager : public AActor
 	// User properties
 	UPROPERTY(EditAnywhere, Category = Weapon)
 	TArray<FWaveData> SpawnWaves;
-
-	UPROPERTY(EditDefaultsOnly, Category = Loading)
-	FName LevelToComplete;
 	
 public:	
 	AEnemySpawnerManager();
