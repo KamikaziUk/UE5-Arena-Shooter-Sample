@@ -28,6 +28,7 @@
 #include "../Enemies/EnemySpawnerManager.h"
 
 #include "GameFramework/Actor.h"
+#include "Sound/SoundBase.h"
 
 #include "Projectile.generated.h"
 
@@ -60,6 +61,9 @@ class BOOMERSHOOTER_API AProjectile : public AActor
 
 	UPROPERTY(EditDefaultsOnly, Category = Effects)
 	TSubclassOf<class AActor> Explosion;
+
+	UPROPERTY(EditDefaultsOnly, Category = Effects)
+	USoundBase* ExplosionAudio;
 
 	UPROPERTY(EditDefaultsOnly, Category = Effects)
 	TSubclassOf<class AActor> EnemyHit;

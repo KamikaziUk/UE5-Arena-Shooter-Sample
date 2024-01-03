@@ -34,6 +34,7 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "NiagaraComponent.h"
 #include "NiagaraFunctionLibrary.h"
+#include "Sound/SoundBase.h"
 
 #include "Weapon.generated.h"
 
@@ -60,6 +61,12 @@ class BOOMERSHOOTER_API AWeapon : public AActor
 
 	UPROPERTY(EditDefaultsOnly, Category = Effects)
 	TSubclassOf<class AProjectile> Projectile;
+
+	UPROPERTY(EditDefaultsOnly, Category = Effects)
+	USoundBase* ShootAudio;
+
+	UPROPERTY(EditDefaultsOnly, Category = Effects)
+	USoundBase* HitSurfaceAudio;
 
 	UPROPERTY(EditDefaultsOnly, Category = Effects)
 	class UNiagaraSystem* BulletTrace;

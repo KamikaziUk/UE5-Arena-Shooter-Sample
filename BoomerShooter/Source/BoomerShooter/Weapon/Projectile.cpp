@@ -143,6 +143,11 @@ void AProjectile::Tick(float DeltaTime)
 					auto ExplosionActor = World->SpawnActor<AActor>(Explosion,
 						ActorHit->GetActorLocation(), ActorHit->GetActorRotation(), ActorSpawnParams);
 					ExplosionActor->SetActorLocationAndRotation(Hit.ImpactPoint, FQuat::Identity);
+
+					if(ExplosionAudio != nullptr)
+					{
+						UGameplayStatics::PlaySoundAtLocation(this, ExplosionAudio, GetActorLocation());
+					}
 				}
 
 				if(EnemyBullet)
@@ -164,18 +169,21 @@ void AProjectile::Tick(float DeltaTime)
 
 					for(int i = 0; i < EnemyActors.Num(); i++)
 					{
-						auto ActorPos = EnemyActors[i]->GetActorLocation();
-
-						if(FVector::Distance(Hit.ImpactPoint, ActorPos) <= DamageRadius)
+						if(EnemyActors[i] != nullptr)
 						{
-							auto EnemyCharacter = EnemyActors[i];
-							EnemyCharacter->DamageEnemy(BulletDamage);
+							auto ActorPos = EnemyActors[i]->GetActorLocation();
 
-							if(EnemyHit != nullptr)
+							if(FVector::Distance(Hit.ImpactPoint, ActorPos) <= DamageRadius)
 							{
-								auto SpawnedActor = World->SpawnActor<AActor>(EnemyHit,
-									EnemyActors[i]->GetActorLocation(), EnemyActors[i]->GetActorRotation(), ActorSpawnParams);
-								SpawnedActor->SetActorLocationAndRotation(ActorPos, Rotation);
+								auto EnemyCharacter = EnemyActors[i];
+								EnemyCharacter->DamageEnemy(BulletDamage);
+
+								if(EnemyHit != nullptr)
+								{
+									auto SpawnedActor = World->SpawnActor<AActor>(EnemyHit,
+										EnemyActors[i]->GetActorLocation(), EnemyActors[i]->GetActorRotation(), ActorSpawnParams);
+									SpawnedActor->SetActorLocationAndRotation(ActorPos, Rotation);
+								}
 							}
 						}
 					}

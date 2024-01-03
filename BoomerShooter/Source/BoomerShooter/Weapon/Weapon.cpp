@@ -98,6 +98,11 @@ void AWeapon::Fire()
 	//	ParticleComponent->Activate();
 	//}
 
+	if(ShootAudio != nullptr)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, ShootAudio, GetActorLocation());
+	}
+
 	const FRotator SpawnRotation = PlayerController->PlayerCameraManager->GetCameraRotation();
 	const FVector SpawnLocation = Character->GetActorLocation() + SpawnRotation.RotateVector(CameraRaycastOffset);
 
@@ -194,6 +199,14 @@ void AWeapon::Fire()
 
 					auto Rotation = UKismetMathLibrary::MakeRotFromXZ(HitNormal, FVector::CrossProduct(HitNormal, UpDirection));
 					auto SpawnedActor = World->SpawnActor<AActor>(SpawnActor, Hit.ImpactPoint, Rotation, ActorSpawnParams);
+				}
+
+				if(!HitEnemy)
+				{
+					if(HitSurfaceAudio != nullptr)
+					{
+						UGameplayStatics::PlaySoundAtLocation(this, HitSurfaceAudio, TraceEnd);
+					}
 				}
 			}
 

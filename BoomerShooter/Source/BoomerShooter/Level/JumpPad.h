@@ -26,6 +26,7 @@
 #include "CoreMinimal.h"
 
 #include "GameFramework/Actor.h"
+#include "Sound/SoundBase.h"
 
 #include "JumpPad.generated.h"
 
@@ -39,6 +40,9 @@ class BOOMERSHOOTER_API AJumpPad : public AActor
 	// User properties
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
 	float JumpForce;
+
+	UPROPERTY(EditDefaultsOnly, Category = Effects)
+	USoundBase* JumpAudio;
 
 public:	
 	AJumpPad();

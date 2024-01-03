@@ -62,6 +62,11 @@ void AJumpPad::OnComponentOverlap(
 {
 	if(Player != nullptr && OtherActor == Player)
 	{
+		if(JumpAudio != nullptr)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, JumpAudio, GetActorLocation());
+		}
+
 		Player->LaunchCharacter(GetActorUpVector() * JumpForce, false, true);
 	}
 }

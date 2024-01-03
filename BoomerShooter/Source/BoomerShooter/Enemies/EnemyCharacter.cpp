@@ -68,6 +68,11 @@ void AEnemyCharacter::DamageEnemy(int BulletDamage)
 {
 	Health -= BulletDamage;
 
+	if(DamageAudio != nullptr)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, DamageAudio, GetActorLocation());
+	}
+
 	if(IsDead())
 	{
 		Player->KilledEnemy(PlayerScoreIncreaseOnKilled);

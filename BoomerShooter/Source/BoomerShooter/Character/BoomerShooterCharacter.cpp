@@ -96,7 +96,7 @@ void ABoomerShooterCharacter::SetupPlayerInputComponent(class UInputComponent* P
 	if(UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
 	{
 		//Jumping
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ABoomerShooterCharacter::JumpInput);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
 
 		//Moving
@@ -143,6 +143,19 @@ void ABoomerShooterCharacter::Look(const FInputActionValue& Value)
 	}
 }
 
+void ABoomerShooterCharacter::JumpInput(const FInputActionValue& Value)
+{
+	if(this->CanJump())
+	{
+		if(JumpAudio != nullptr)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, JumpAudio, GetActorLocation());
+		}
+	}
+
+	this->Jump();
+}
+
 void ABoomerShooterCharacter::Dash(const FInputActionValue& Value)
 {
 	if(CanDash)
@@ -158,6 +171,11 @@ void ABoomerShooterCharacter::Dash(const FInputActionValue& Value)
 
 		CharacterBase->LaunchCharacter(LaunchDir * DashVelocity, false, false);
 		CanDash = false;
+
+		if(DashAudio != nullptr)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, DashAudio, GetActorLocation());
+		}
 	}
 }
 
@@ -236,6 +254,11 @@ bool ABoomerShooterCharacter::IsWeaponShooting()
 void ABoomerShooterCharacter::Landed(const FHitResult& Hit)
 {
 	CanDash = true;
+
+	if(JumpLandAudio != nullptr)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, JumpLandAudio, GetActorLocation());
+	}
 }
 
 void ABoomerShooterCharacter::Tick(float DeltaTime)
@@ -290,6 +313,11 @@ void ABoomerShooterCharacter::TookDamage(int Damage, FVector DamageLocation)
 {
 	Combo = 0;
 	Health -= Damage;
+
+	if(TakeDamageAudio != nullptr)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, TakeDamageAudio, GetActorLocation());
+	}
 
 	auto DirectionToTarget = DamageLocation - GetActorLocation();
 

@@ -29,6 +29,7 @@
 #include "EnemyNavigationPoint.h"
 
 #include "GameFramework/Character.h"
+#include "Sound/SoundBase.h"
 
 #include "EnemyCharacter.generated.h"
 
@@ -55,6 +56,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = Navigation)
 	AActor* LineMoverEndPoint;
+
+	UPROPERTY(EditDefaultsOnly, Category = Effects)
+	USoundBase* DamageAudio;
 
 	void DamageEnemy(int BulletDamage);
 	bool IsDead();

@@ -32,6 +32,7 @@
 #include "InputActionValue.h"
 #include "GenericPlatform/GenericPlatformMath.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Sound/SoundBase.h"
 
 #include "BoomerShooterCharacter.generated.h"
 
@@ -84,6 +85,18 @@ class ABoomerShooterCharacter : public ACharacter
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* ShootAction;
+
+	UPROPERTY(EditDefaultsOnly, Category = Effects)
+	USoundBase* JumpAudio;
+
+	UPROPERTY(EditDefaultsOnly, Category = Effects)
+	USoundBase* JumpLandAudio;
+
+	UPROPERTY(EditDefaultsOnly, Category = Effects)
+	USoundBase* DashAudio;
+
+	UPROPERTY(EditDefaultsOnly, Category = Effects)
+	USoundBase* TakeDamageAudio;
 
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
 	float DashVelocity;
@@ -145,6 +158,7 @@ protected:
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
 	virtual void Landed(const FHitResult& Hit) override;
+	void JumpInput(const FInputActionValue& Value);
 
 private:
 	void Move(const FInputActionValue& Value);

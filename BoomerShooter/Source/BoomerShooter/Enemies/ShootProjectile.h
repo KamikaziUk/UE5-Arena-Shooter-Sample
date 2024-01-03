@@ -26,6 +26,7 @@
 #include "CoreMinimal.h"
 
 #include "Components/SceneComponent.h"
+#include "Sound/SoundBase.h"
 
 #include "ShootProjectile.generated.h"
 
@@ -37,6 +38,9 @@ class BOOMERSHOOTER_API UShootProjectile : public USceneComponent
 	// User properties
 	UPROPERTY(EditDefaultsOnly, Category = Effects)
 	TSubclassOf<class AProjectile> Projectile;
+
+	UPROPERTY(EditDefaultsOnly, Category = Effects)
+	USoundBase* ShootAudio;
 
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
 	float ShootTime;

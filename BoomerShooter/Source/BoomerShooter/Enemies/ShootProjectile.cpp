@@ -26,6 +26,7 @@
 #include "../Weapon/Projectile.h"
 
 #include "Math/UnrealMathUtility.h"
+#include "Kismet/GameplayStatics.h"
 
 UShootProjectile::UShootProjectile()
 {
@@ -60,6 +61,11 @@ void UShootProjectile::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 				GetComponentLocation(),
 				GetComponentRotation(), ActorSpawnParams);
 			ProjectileSpawned->BulletDamage = Damage;
+
+			if(ShootAudio != nullptr)
+			{
+				UGameplayStatics::PlaySoundAtLocation(this, ShootAudio, GetComponentLocation());
+			}
 		}
 	}
 }
