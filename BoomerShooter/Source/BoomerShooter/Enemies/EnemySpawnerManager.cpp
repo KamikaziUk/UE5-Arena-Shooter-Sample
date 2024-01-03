@@ -48,7 +48,7 @@ void AEnemySpawnerManager::Tick(float DeltaTime)
 
 		for(int i = 0; i < CurrentWaveCharacters.Num(); i++)
 		{
-			if(CurrentWaveCharacters[i] != nullptr)
+			if(IsValid(CurrentWaveCharacters[i]))
 			{
 				if(!CurrentWaveCharacters[i]->IsDead())
 				{
@@ -68,7 +68,7 @@ void AEnemySpawnerManager::Tick(float DeltaTime)
 
 void AEnemySpawnerManager::SpawnWave()
 {
-	if(World != nullptr)
+	if(IsValid(World))
 	{
 		if(CurrentWave < SpawnWaves.Num())
 		{
@@ -77,7 +77,7 @@ void AEnemySpawnerManager::SpawnWave()
 
 			for(int i = 0; i < WaveCharacters.Num(); i++)
 			{
-				if(WaveCharacters[i].SpawnPoint != nullptr)
+				if(IsValid(WaveCharacters[i].SpawnPoint))
 				{
 					AActor* spawnActor = WaveCharacters[i].SpawnPoint;
 
@@ -99,8 +99,22 @@ void AEnemySpawnerManager::SpawnWave()
 	}
 }
 
+void AEnemySpawnerManager::UpdateEnemies()
+{
+	for(int i = CurrentWaveCharacters.Num() - 1; i >= 0; i--)
+	{
+		if(!IsValid(CurrentWaveCharacters[i]) ||
+			CurrentWaveCharacters[i]->IsDead())
+		{
+			CurrentWaveCharacters.RemoveAt(i);
+		}
+	}
+}
+
 TArray<AEnemyCharacter*> AEnemySpawnerManager::GetWaveCharacters()
 {
+	UpdateEnemies();
+
 	if(CurrentWaveCharacters.Num() > 0)
 	{
 		return CurrentWaveCharacters;

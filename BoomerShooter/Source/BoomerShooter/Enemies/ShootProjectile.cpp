@@ -43,13 +43,13 @@ void UShootProjectile::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if(World != nullptr)
+	if(IsValid(World))
 	{
 		CurrentTime -= DeltaTime;
 		CurrentShootTimer += DeltaTime;
 
 		// Shooting
-		if(CurrentShootTimer >= ShootTime && Projectile != nullptr)
+		if(CurrentShootTimer >= ShootTime && IsValid(Projectile))
 		{
 			CurrentShootTimer = 0.0f;
 
@@ -62,7 +62,7 @@ void UShootProjectile::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 				GetComponentRotation(), ActorSpawnParams);
 			ProjectileSpawned->BulletDamage = Damage;
 
-			if(ShootAudio != nullptr)
+			if(IsValid(ShootAudio))
 			{
 				UGameplayStatics::PlaySoundAtLocation(this, ShootAudio, GetComponentLocation());
 			}

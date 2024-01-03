@@ -34,6 +34,7 @@
 #include "EnemyCharacter.generated.h"
 
 class ABoomerShooterCharacter;
+class AEnemySpawnerManager;
 
 UCLASS()
 class BOOMERSHOOTER_API AEnemyCharacter : public ACharacter
@@ -73,4 +74,5 @@ private:
 	int Health;
 	UWorld* World;
 	ABoomerShooterCharacter* Player;
+	AEnemySpawnerManager* SpawnerManager;
 };

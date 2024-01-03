@@ -69,7 +69,7 @@ void AProjectile::Tick(float DeltaTime)
 
 	Mesh->SetPhysicsLinearVelocity(Mesh->GetForwardVector() * Speed * DeltaTime);
 
-	if(World != nullptr && PlayerActor != nullptr)
+	if(IsValid(World) && IsValid(PlayerActor))
 	{
 		FVector RayOrigin = Mesh->GetComponentLocation();
 		FVector RayEnd = PreviousLocation;
@@ -83,7 +83,10 @@ void AProjectile::Tick(float DeltaTime)
 			// Add all the enemies actors, so the player doesn't hit them
 			for(int i = 0; i < EnemyActors.Num(); i++)
 			{
-				TraceParams.AddIgnoredActor(EnemyActors[i]);
+				if(IsValid(EnemyActors[i]))
+				{
+					TraceParams.AddIgnoredActor(EnemyActors[i]);
+				}
 			}
 		}
 		else
@@ -131,20 +134,20 @@ void AProjectile::Tick(float DeltaTime)
 
 		AActor* ActorHit = Hit.GetActor();
 
-		if(ActorHit != nullptr)
+		if(IsValid(ActorHit))
 		{
 			if(ProjectileType == EProjectileType::Rocket)
 			{
 				FActorSpawnParameters ActorSpawnParams;
 				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
-				if(Explosion != nullptr)
+				if(IsValid(Explosion))
 				{
 					auto ExplosionActor = World->SpawnActor<AActor>(Explosion,
 						ActorHit->GetActorLocation(), ActorHit->GetActorRotation(), ActorSpawnParams);
 					ExplosionActor->SetActorLocationAndRotation(Hit.ImpactPoint, FQuat::Identity);
 
-					if(ExplosionAudio != nullptr)
+					if(IsValid(ExplosionAudio))
 					{
 						UGameplayStatics::PlaySoundAtLocation(this, ExplosionAudio, GetActorLocation());
 					}
@@ -152,7 +155,7 @@ void AProjectile::Tick(float DeltaTime)
 
 				if(EnemyBullet)
 				{	
-					if(PlayerCharacter != nullptr && ActorHit == PlayerCharacter)
+					if(IsValid(PlayerCharacter) && ActorHit == PlayerCharacter)
 					{
 						PlayerCharacter->TookDamage(BulletDamage, GetActorLocation());
 					}
@@ -169,7 +172,7 @@ void AProjectile::Tick(float DeltaTime)
 
 					for(int i = 0; i < EnemyActors.Num(); i++)
 					{
-						if(EnemyActors[i] != nullptr)
+						if(IsValid(EnemyActors[i]))
 						{
 							auto ActorPos = EnemyActors[i]->GetActorLocation();
 
@@ -178,7 +181,7 @@ void AProjectile::Tick(float DeltaTime)
 								auto EnemyCharacter = EnemyActors[i];
 								EnemyCharacter->DamageEnemy(BulletDamage);
 
-								if(EnemyHit != nullptr)
+								if(IsValid(EnemyHit))
 								{
 									auto SpawnedActor = World->SpawnActor<AActor>(EnemyHit,
 										EnemyActors[i]->GetActorLocation(), EnemyActors[i]->GetActorRotation(), ActorSpawnParams);

@@ -73,6 +73,7 @@ class BOOMERSHOOTER_API AEnemySpawnerManager : public AActor
 public:	
 	AEnemySpawnerManager();
 	TArray<AEnemyCharacter*> GetWaveCharacters();
+	void UpdateEnemies();
 
 protected:
 	virtual void Tick(float DeltaTime) override;

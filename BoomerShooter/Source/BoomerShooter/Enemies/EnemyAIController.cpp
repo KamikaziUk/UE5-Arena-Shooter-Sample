@@ -61,7 +61,7 @@ void AEnemyAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if(Player == nullptr)
+	if(!IsValid(Player))
 	{
 		return;
 	}
@@ -102,7 +102,7 @@ void AEnemyAIController::Tick(float DeltaTime)
 
 				AActor* ActorHit = Hit.GetActor();
 
-				if(ActorHit != nullptr)
+				if(IsValid(ActorHit))
 				{
 					MoveToLocation(Hit.ImpactPoint);
 				}

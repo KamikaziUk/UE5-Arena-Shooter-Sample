@@ -53,7 +53,7 @@ void ADamageZone::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	// Damage zone once every N seconds
-	if(PlayerInside && Player != nullptr)
+	if(PlayerInside && IsValid(Player))
 	{
 		CurrentDamageTime -= DeltaTime;
 
@@ -69,9 +69,9 @@ void ADamageZone::OnComponentBeginOverlap(
 	UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if(World != nullptr)
+	if(IsValid(World))
 	{		
-		if(Player != nullptr && OtherActor == Player)
+		if(IsValid(Player) && OtherActor == Player)
 		{
 			PlayerInside = true;
 		}
@@ -82,9 +82,9 @@ void ADamageZone::OnComponentEndOverlap(
 	UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	if(World != nullptr)
+	if(IsValid(World))
 	{
-		if(Player != nullptr && OtherActor == Player)
+		if(IsValid(Player) && OtherActor == Player)
 		{
 			PlayerInside = false;
 		}
