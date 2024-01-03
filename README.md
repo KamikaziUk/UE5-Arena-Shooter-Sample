@@ -9,11 +9,12 @@ Any comments or feedback on how to improve would be great!
 - Press the compile button to ensure it compiles correctly
 - Enjoy
 
-## Current Version 0.1
+## Current Version 0.2
 
 ![](https://github.com/KamikaziUk/UE5-Arena-Shooter-Sample/blob/main/Demo.gif)
 
 ## Current Feature List
+- Place holder sound effects
 - Flexible weapon system
 - Flexible projectile system
 - Damage indicators
@@ -30,7 +31,7 @@ Any comments or feedback on how to improve would be great!
 - Level timer
 - Damage zones
 - Traps
-- HUD
+- Menu, HUD and end screen
 
 ## Future Features / Roadmap
 - Object pooling - projectiles, effects etc
