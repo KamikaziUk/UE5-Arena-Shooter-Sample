@@ -14,6 +14,7 @@ Any comments or feedback on how to improve would be great!
 ![](https://github.com/KamikaziUk/UE5-Arena-Shooter-Sample/blob/main/Demo.gif)
 
 ## Current Feature List
+- Place holder sound effects
 - Flexible weapon system
 - Flexible projectile system
 - Damage indicators
@@ -31,20 +32,14 @@ Any comments or feedback on how to improve would be great!
 - Damage zones
 - Traps
 - Menu, HUD and end screen
-- Place holder sound effects
-- Interaction points (Interact with doors, buttons etc)
 
 ## Future Features / Roadmap
-- Object pooling - projectiles, effects etc
-- Player dying / level end screen (restart, exit)
+- Camera & weapon recoil/shake
+- Grind rails
+- Aim assist
 - Weapon ammo/reloading
 - Ammo pickups
-- Camera & weapon recoil/shake
-- Weapon rotational sway
-- Main menu (start, exit)
-- Level select menu
-- SFX
-- VFX
-- Gib system (Enemies explode into parts)
+- Object pooling - projectiles, effects etc
+- Gameplay abilities (GAS)
 
 Feel free to submit any bugs or issues here.
