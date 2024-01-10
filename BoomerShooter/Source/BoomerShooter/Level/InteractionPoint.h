@@ -23,72 +23,45 @@
 
 #pragma once
 
+#include "../Character/BoomerShooterCharacter.h"
+
 #include "CoreMinimal.h"
+#include "Components/SceneComponent.h"
+#include "InteractionPoint.generated.h"
 
-#include "EnemySpawnPoint.h"
-#include "EnemyCharacter.h"
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FInteractionPointActivatedDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FInteractionPointPlayerEnterDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FInteractionPointPlayerExitDelegate);
 
-#include "GameFramework/Actor.h"
-
-#include "EnemySpawnerManager.generated.h"
-
-USTRUCT()
-struct FSpawnCharacterData
+UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+class BOOMERSHOOTER_API UInteractionPoint : public USceneComponent
 {
 	GENERATED_BODY()
 
-	// User properties
-	UPROPERTY(EditAnywhere, Category = Spawn)
-	AEnemySpawnPoint* SpawnPoint;
+	UPROPERTY(EditDefaultsOnly, Category = Interactions)
+	float InteractDistance;
 
-	UPROPERTY(EditAnywhere, Category = Spawn)
-	AActor* LineMoverStartPoint;
-
-	UPROPERTY(EditAnywhere, Category = Spawn)
-	AActor* LineMoverEndPoint;
-
-	UPROPERTY(EditAnywhere, Category = Spawn)
-	TSubclassOf<AEnemyCharacter> SpawnCharacter;
-};
-
-USTRUCT()
-struct FWaveData
-{
-	GENERATED_BODY()
-
-	// User properties
-	UPROPERTY(EditAnywhere, Category = Weapon)
-	TArray<FSpawnCharacterData> SpawnCharacters;
-};
-
-UCLASS()
-class BOOMERSHOOTER_API AEnemySpawnerManager : public AActor
-{
-	GENERATED_BODY()
-
-	// User properties
-	UPROPERTY(EditAnywhere, Category = Weapon)
-	TArray<FWaveData> SpawnWaves;
-
-	UPROPERTY(EditDefaultsOnly, Category = Loading)
-	FName LevelToComplete;
-
-	UPROPERTY(EditAnywhere, Category = Loading)
-	bool GoToDemoOnComplete;
-	
 public:	
-	AEnemySpawnerManager();
-	TArray<AEnemyCharacter*> GetWaveCharacters();
-	void UpdateEnemies();
+	UInteractionPoint();
+
+	UPROPERTY(BlueprintAssignable, Category = Events)
+	FInteractionPointActivatedDelegate OnInteractionPointActivated;
+
+	UPROPERTY(BlueprintAssignable, Category = Events)
+	FInteractionPointPlayerEnterDelegate OnInteractionPointPlayerEnter;
+
+	UPROPERTY(BlueprintAssignable, Category = Events)
+	FInteractionPointPlayerExitDelegate OnInteractionPointPlayerExit;
 
 protected:
-	virtual void Tick(float DeltaTime) override;
 	virtual void BeginPlay() override;
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
-	void SpawnWave();
+	UFUNCTION()
+	void OnPlayerInteractionPressed();
 
-	int CurrentWave;
-	TArray<AEnemyCharacter*> CurrentWaveCharacters;
-	UWorld* World;
+private:
+	ABoomerShooterCharacter* Player;
+	bool PlayerInRange;
 };

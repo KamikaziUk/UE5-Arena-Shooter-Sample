@@ -130,6 +130,9 @@ void ABoomerShooterCharacter::SetupPlayerInputComponent(class UInputComponent* P
 		//Dash
 		EnhancedInputComponent->BindAction(DashAction, ETriggerEvent::Triggered, this, &ABoomerShooterCharacter::Dash);
 
+		//Interaction
+		EnhancedInputComponent->BindAction(InteractionAction, ETriggerEvent::Triggered, this, &ABoomerShooterCharacter::Interaction);
+
 		//Change Weapon
 		EnhancedInputComponent->BindAction(ChangeWeaponSlot0, ETriggerEvent::Triggered, this, &ABoomerShooterCharacter::ChangeWeapon1);
 		EnhancedInputComponent->BindAction(ChangeWeaponSlot1, ETriggerEvent::Triggered, this, &ABoomerShooterCharacter::ChangeWeapon2);
@@ -198,6 +201,14 @@ void ABoomerShooterCharacter::Dash(const FInputActionValue& Value)
 		{
 			UGameplayStatics::PlaySoundAtLocation(this, DashAudio, GetActorLocation());
 		}
+	}
+}
+
+void ABoomerShooterCharacter::Interaction(const FInputActionValue& Value)
+{
+	if(OnPlayerInteractionPress.IsBound())
+	{
+		OnPlayerInteractionPress.Broadcast();
 	}
 }
 

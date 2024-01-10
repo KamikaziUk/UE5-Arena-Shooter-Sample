@@ -44,6 +44,8 @@ class UCameraComponent;
 class UAnimMontage;
 class USoundBase;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPlayerInteractionPressedDelegate);
+
 UCLASS(config=Game)
 class ABoomerShooterCharacter : public ACharacter
 {
@@ -73,6 +75,9 @@ class ABoomerShooterCharacter : public ACharacter
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* LookAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* InteractionAction;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* ChangeWeaponSlot0;
@@ -156,6 +161,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Weapon)
 	bool IsWeaponShooting();
 
+	UPROPERTY(BlueprintAssignable, Category = Events)
+	FPlayerInteractionPressedDelegate OnPlayerInteractionPress;
+
 protected:
 	virtual void BeginPlay();
 	virtual void Tick(float DeltaTime) override;
@@ -167,6 +175,7 @@ private:
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
 	void Dash(const FInputActionValue& Value);
+	void Interaction(const FInputActionValue& Value);
 	void ChangeWeapon1(const FInputActionValue& Value);
 	void ChangeWeapon2(const FInputActionValue& Value);
 	void ChangeWeapon3(const FInputActionValue& Value);
