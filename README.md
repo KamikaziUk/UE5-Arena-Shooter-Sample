@@ -14,7 +14,6 @@ Any comments or feedback on how to improve would be great!
 ![](https://github.com/KamikaziUk/UE5-Arena-Shooter-Sample/blob/main/Demo.gif)
 
 ## Current Feature List
-- Place holder sound effects
 - Flexible weapon system
 - Flexible projectile system
 - Damage indicators
@@ -32,6 +31,8 @@ Any comments or feedback on how to improve would be great!
 - Damage zones
 - Traps
 - Menu, HUD and end screen
+- Place holder sound effects
+- Interaction points (Interact with doors, buttons etc)
 
 ## Future Features / Roadmap
 - Camera & weapon recoil/shake
@@ -42,4 +43,5 @@ Any comments or feedback on how to improve would be great!
 - Object pooling - projectiles, effects etc
 - Gameplay abilities (GAS)
 
+Placeholder sound effects & music from Pixabay (https://pixabay.com/)
 Feel free to submit any bugs or issues here.
