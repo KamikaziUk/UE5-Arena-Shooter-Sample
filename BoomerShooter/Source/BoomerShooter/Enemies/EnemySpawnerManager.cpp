@@ -103,7 +103,10 @@ void AEnemySpawnerManager::SpawnWave()
 		}
 		else
 		{
-			UGameplayStatics::OpenLevel(World, LevelToComplete);
+			if(GoToDemoOnComplete)
+			{
+				UGameplayStatics::OpenLevel(World, LevelToComplete);
+			}
 		}
 	}
 }

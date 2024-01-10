@@ -72,6 +72,9 @@ class BOOMERSHOOTER_API AEnemySpawnerManager : public AActor
 
 	UPROPERTY(EditDefaultsOnly, Category = Loading)
 	FName LevelToComplete;
+
+	UPROPERTY(EditAnywhere, Category = Loading)
+	bool GoToDemoOnComplete;
 	
 public:	
 	AEnemySpawnerManager();
