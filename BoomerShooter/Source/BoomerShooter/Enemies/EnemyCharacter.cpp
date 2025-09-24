@@ -65,7 +65,7 @@ void AEnemyCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-bool AEnemyCharacter::IsDead()
+bool AEnemyCharacter::IsDead() const
 {
 	return Health <= 0;
 }

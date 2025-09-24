@@ -99,13 +99,13 @@ public:
 	void SpawnWeapon(ABoomerShooterCharacter* TargetCharacter);
 
 	UFUNCTION(BlueprintCallable, Category = Weapon)
-	bool IsShooting();
+	bool IsShooting() const;
 
 	UFUNCTION(BlueprintCallable, Category = Weapon)
-	float GetCrosshairAngle();
+	float GetCrosshairAngle() const;
 
 	UFUNCTION(BlueprintCallable, Category = Weapon)
-	float GetCrosshairScale();
+	float GetCrosshairScale() const;
 
 protected:
 	virtual void Tick(float DeltaTime) override;
@@ -113,7 +113,7 @@ protected:
 
 private:
 	void Fire();
-	bool IsFirePressed();
+	bool IsFirePressed() const;
 
 	FVector TargetRelativeLocation;
 	ABoomerShooterCharacter* Character;

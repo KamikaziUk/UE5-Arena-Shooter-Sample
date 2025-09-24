@@ -75,22 +75,22 @@ void AWeapon::SetFirePressed(bool Pressed)
 	FirePressed = Pressed;
 }
 
-bool AWeapon::IsShooting()
+bool AWeapon::IsShooting() const
 {
 	return CurrentShootTime > 0.0f;
 }
 
-bool AWeapon::IsFirePressed()
+bool AWeapon::IsFirePressed() const
 {
 	return FirePressed;
 }
 
-float AWeapon::GetCrosshairAngle()
+float AWeapon::GetCrosshairAngle() const
 {
 	return FMath::Lerp(-180.0f, 180.0f, ChangeWeaponTime / 0.3f);
 }
 
-float AWeapon::GetCrosshairScale()
+float AWeapon::GetCrosshairScale() const
 {
 	return (1.0f + FMath::Sin(FMath::Clamp(CrosshairHitTime / 0.2f, 0.0f, 1.0f) * PI));
 }

@@ -78,6 +78,7 @@ class BOOMERSHOOTER_API AEnemySpawnerManager : public AActor
 	
 public:	
 	AEnemySpawnerManager();
+
 	TArray<AEnemyCharacter*> GetWaveCharacters();
 	void UpdateEnemies();
 

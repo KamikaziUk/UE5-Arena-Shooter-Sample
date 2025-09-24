@@ -62,7 +62,7 @@ public:
 	USoundBase* DamageAudio;
 
 	void DamageEnemy(int BulletDamage);
-	bool IsDead();
+	bool IsDead() const;
 
 protected:	
 	virtual void BeginPlay() override;
