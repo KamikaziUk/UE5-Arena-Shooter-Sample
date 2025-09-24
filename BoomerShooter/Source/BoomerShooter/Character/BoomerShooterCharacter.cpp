@@ -69,18 +69,6 @@ void ABoomerShooterCharacter::BeginPlay()
 		}
 	}
 
-	// Slow on performance but using for demonstration
-	TArray<AActor*> FoundActors;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AEnemySpawnerManager::StaticClass(), FoundActors);
-	if(FoundActors.Num() == 1)
-	{
-		SpawnerManager = Cast<AEnemySpawnerManager>(FoundActors[0]);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Can't find enemy spawn manager"));
-	}
-
 	CurrentWeapon = nullptr;
 	UpdateWeapon(1);
 
@@ -95,6 +83,23 @@ void ABoomerShooterCharacter::BeginPlay()
 	}
 
 	CameraRelativeLocation = FirstPersonCameraComponent->GetRelativeLocation();
+}
+
+void ABoomerShooterCharacter::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+
+	// Slow on performance but using for demonstration
+	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AEnemySpawnerManager::StaticClass(), FoundActors);
+	if(FoundActors.Num() == 1)
+	{
+		SpawnerManager = Cast<AEnemySpawnerManager>(FoundActors[0]);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Can't find enemy spawn manager"));
+	}
 }
 
 void ABoomerShooterCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)

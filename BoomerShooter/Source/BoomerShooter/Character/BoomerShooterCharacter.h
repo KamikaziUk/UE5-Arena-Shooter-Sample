@@ -166,6 +166,7 @@ public:
 
 protected:
 	virtual void BeginPlay();
+	virtual void PostInitializeComponents() override;
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
 	virtual void Landed(const FHitResult& Hit) override;
