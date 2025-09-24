@@ -39,16 +39,16 @@ struct FSpawnCharacterData
 
 	// User properties
 	UPROPERTY(EditAnywhere, Category = Spawn)
-	AEnemySpawnPoint* SpawnPoint;
+	AEnemySpawnPoint* SpawnPoint = nullptr;
 
 	UPROPERTY(EditAnywhere, Category = Spawn)
-	AActor* LineMoverStartPoint;
+	AActor* LineMoverStartPoint = nullptr;
 
 	UPROPERTY(EditAnywhere, Category = Spawn)
-	AActor* LineMoverEndPoint;
+	AActor* LineMoverEndPoint = nullptr;
 
 	UPROPERTY(EditAnywhere, Category = Spawn)
-	TSubclassOf<AEnemyCharacter> SpawnCharacter;
+	TSubclassOf<AEnemyCharacter> SpawnCharacter = {};
 };
 
 USTRUCT()
@@ -58,7 +58,7 @@ struct FWaveData
 
 	// User properties
 	UPROPERTY(EditAnywhere, Category = Weapon)
-	TArray<FSpawnCharacterData> SpawnCharacters;
+	TArray<FSpawnCharacterData> SpawnCharacters = {};
 };
 
 UCLASS()
@@ -68,16 +68,17 @@ class BOOMERSHOOTER_API AEnemySpawnerManager : public AActor
 
 	// User properties
 	UPROPERTY(EditAnywhere, Category = Weapon)
-	TArray<FWaveData> SpawnWaves;
+	TArray<FWaveData> SpawnWaves = {};
 
 	UPROPERTY(EditDefaultsOnly, Category = Loading)
-	FName LevelToComplete;
+	FName LevelToComplete = {};
 
 	UPROPERTY(EditAnywhere, Category = Loading)
-	bool GoToDemoOnComplete;
+	bool GoToDemoOnComplete = false;
 	
 public:	
 	AEnemySpawnerManager();
+
 	TArray<AEnemyCharacter*> GetWaveCharacters();
 	void UpdateEnemies();
 
@@ -88,7 +89,7 @@ protected:
 private:
 	void SpawnWave();
 
-	int CurrentWave;
-	TArray<AEnemyCharacter*> CurrentWaveCharacters;
-	UWorld* World;
+	int CurrentWave = 0;
+	TArray<AEnemyCharacter*> CurrentWaveCharacters = {};
+	TObjectPtr<UWorld> World = nullptr;
 };

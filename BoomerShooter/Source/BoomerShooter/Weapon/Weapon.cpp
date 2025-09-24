@@ -38,16 +38,6 @@ AWeapon::AWeapon()
 	PrimaryActorTick.bCanEverTick = true;
 
 	CameraRaycastOffset = FVector(100.0f, 0.0f, 10.0f);
-	TargetRelativeLocation = {};
-	Character = nullptr;
-	CurrentShootTime = {};
-	CurrentSpringVelocity = {};
-	FirePressed = {};
-	CurrentRoll = {};
-	CrosshairHitTime = {};
-	ChangeWeaponTime = {};
-	World = nullptr;
-	PlayerController = nullptr;
 
 	auto ParentChild = CreateDefaultSubobject<USceneComponent>(TEXT("Parent"));
 	RootComponent = ParentChild;
@@ -75,22 +65,22 @@ void AWeapon::SetFirePressed(bool Pressed)
 	FirePressed = Pressed;
 }
 
-bool AWeapon::IsShooting()
+bool AWeapon::IsShooting() const
 {
 	return CurrentShootTime > 0.0f;
 }
 
-bool AWeapon::IsFirePressed()
+bool AWeapon::IsFirePressed() const
 {
 	return FirePressed;
 }
 
-float AWeapon::GetCrosshairAngle()
+float AWeapon::GetCrosshairAngle() const
 {
 	return FMath::Lerp(-180.0f, 180.0f, ChangeWeaponTime / 0.3f);
 }
 
-float AWeapon::GetCrosshairScale()
+float AWeapon::GetCrosshairScale() const
 {
 	return (1.0f + FMath::Sin(FMath::Clamp(CrosshairHitTime / 0.2f, 0.0f, 1.0f) * PI));
 }

@@ -45,13 +45,13 @@ class BOOMERSHOOTER_API ULookAtTarget : public USceneComponent
 
 	// User properties
 	UPROPERTY(EditDefaultsOnly, Category = LookAt)
-	AActor* FollowActor;
+	AActor* FollowActor = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = LookAt)
-	ELookAxis Axis;
+	ELookAxis Axis = ELookAxis::LockedZ;
 
 	UPROPERTY(EditDefaultsOnly, Category = LookAt)
-	bool TransformSelf;
+	bool TransformSelf = false;
 
 public:	
 	ULookAtTarget();
@@ -61,5 +61,5 @@ protected:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
-	ACharacter* Player;
+	TObjectPtr<ACharacter> Player = nullptr;
 };

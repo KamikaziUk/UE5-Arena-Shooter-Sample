@@ -47,10 +47,10 @@ class BOOMERSHOOTER_API AEnemyAIController : public AAIController
 
 	// User properties
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	float MinFollowDistance;
+	float MinFollowDistance = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category = Enemy)
-	EEnemyType EnemyType;
+	EEnemyType EnemyType = EEnemyType::Chaser;
 	
 public:
 	AEnemyAIController();
@@ -63,6 +63,6 @@ protected:
 	virtual void Tick(float DeltaTime) override;
 
 private:
-	UWorld* World;
-	ACharacter* Player;
+	UWorld* World = nullptr;
+	TObjectPtr<ACharacter> Player = nullptr;
 };

@@ -53,79 +53,79 @@ class ABoomerShooterCharacter : public ACharacter
 
 	// User properties
 	UPROPERTY(EditDefaultsOnly, Category = Loading)
-	FName LevelToLoadOnDeath;
+	FName LevelToLoadOnDeath = {};
 
 	UPROPERTY(EditDefaultsOnly, Category = Weapon)
-	TArray<TSubclassOf<class AWeapon>> Weapons;
+	TArray<TSubclassOf<class AWeapon>> Weapons = {};
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	UCameraComponent* FirstPersonCameraComponent;
+	UCameraComponent* FirstPersonCameraComponent = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
-	class UInputMappingContext* DefaultMappingContext;
+	class UInputMappingContext* DefaultMappingContext = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
-	class UInputAction* JumpAction;
+	class UInputAction* JumpAction = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
-	class UInputAction* MoveAction;
+	class UInputAction* MoveAction = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	class UInputAction* DashAction;
+	class UInputAction* DashAction = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	class UInputAction* LookAction;
+	class UInputAction* LookAction = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	class UInputAction* InteractionAction;
+	class UInputAction* InteractionAction = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	class UInputAction* ChangeWeaponSlot0;
+	class UInputAction* ChangeWeaponSlot0 = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	class UInputAction* ChangeWeaponSlot1;
+	class UInputAction* ChangeWeaponSlot1 = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	class UInputAction* ChangeWeaponSlot2;
+	class UInputAction* ChangeWeaponSlot2 = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	class UInputAction* ChangeWeaponSlot3;
+	class UInputAction* ChangeWeaponSlot3 = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	class UInputAction* ShootAction;
+	class UInputAction* ShootAction = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = Effects)
-	USoundBase* JumpAudio;
+	USoundBase* JumpAudio = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = Effects)
-	USoundBase* JumpLandAudio;
+	USoundBase* JumpLandAudio = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = Effects)
-	USoundBase* DashAudio;
+	USoundBase* DashAudio = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = Effects)
-	USoundBase* TakeDamageAudio;
+	USoundBase* TakeDamageAudio = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	float DashVelocity;
+	float DashVelocity = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	int MaxHealth;
+	int MaxHealth = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	float DamageDirectionUIFadeTime;
+	float DamageDirectionUIFadeTime = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	float CameraRollAmount;
+	float CameraRollAmount = 0;
 	
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	float CameraBobSpeed;
+	float CameraBobSpeed = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	float CameraBobHeight;
+	float CameraBobHeight = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	float CameraBobFallOff;
+	float CameraBobFallOff = 0;
 
 public:
 	ABoomerShooterCharacter();
@@ -166,6 +166,7 @@ public:
 
 protected:
 	virtual void BeginPlay();
+	virtual void PostInitializeComponents() override;
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
 	virtual void Landed(const FHitResult& Hit) override;
@@ -184,20 +185,20 @@ private:
 	void FireInputCancelled();
 	void UpdateWeapon(int WeaponId);
 
-	FVector CameraRelativeLocation;
-	float BobVelocity;
-	float BobTime;
-	bool CanDash;
-	float DamageDirectionUI[4];
-	FVector2D MovementVector;
+	FVector CameraRelativeLocation = {};
+	float BobVelocity = 0;
+	float BobTime = 0;
+	bool CanDash = false;
+	float DamageDirectionUI[4] = {};
+	FVector2D MovementVector = {};
 
-	float LevelTimer;
-	int Score;
-	int Combo;
-	int Health;
+	float LevelTimer = 0;
+	int Score = 0;
+	int Combo = 0;
+	int Health = 0;
 
-	AEnemySpawnerManager* SpawnerManager;
-	UCharacterMovementComponent* CharacterMovement;
-	AWeapon* CurrentWeapon;
-	UWorld* World;
+	TObjectPtr<AEnemySpawnerManager> SpawnerManager = nullptr;
+	TObjectPtr<UCharacterMovementComponent> CharacterMovement = nullptr;
+	TObjectPtr<AWeapon> CurrentWeapon = nullptr;
+	TObjectPtr<UWorld> World = nullptr;
 };

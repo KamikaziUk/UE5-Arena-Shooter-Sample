@@ -28,7 +28,6 @@
 UInteractionPoint::UInteractionPoint()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-	Player = nullptr;
 	InteractDistance = 150.0f;
 }
 

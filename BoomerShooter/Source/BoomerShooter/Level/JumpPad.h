@@ -36,13 +36,13 @@ UCLASS()
 class BOOMERSHOOTER_API AJumpPad : public AActor
 {
 	GENERATED_BODY()
-	
+
 	// User properties
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	float JumpForce;
+	float JumpForce = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category = Effects)
-	USoundBase* JumpAudio;
+	USoundBase* JumpAudio = nullptr;
 
 public:	
 	AJumpPad();
@@ -57,6 +57,6 @@ protected:
 		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 private:
-	UWorld* World;
-	ABoomerShooterCharacter* Player;
+	TObjectPtr<UWorld> World = nullptr;
+	TObjectPtr<ABoomerShooterCharacter> Player = nullptr;
 };

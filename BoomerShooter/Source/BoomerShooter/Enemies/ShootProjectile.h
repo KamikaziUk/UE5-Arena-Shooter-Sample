@@ -37,16 +37,16 @@ class BOOMERSHOOTER_API UShootProjectile : public USceneComponent
 
 	// User properties
 	UPROPERTY(EditDefaultsOnly, Category = Effects)
-	TSubclassOf<class AProjectile> Projectile;
+	TSubclassOf<class AProjectile> Projectile = {};
 
 	UPROPERTY(EditDefaultsOnly, Category = Effects)
-	USoundBase* ShootAudio;
+	USoundBase* ShootAudio = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	float ShootTime;
+	float ShootTime = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	int Damage;
+	int Damage = 0;
 
 public:	
 	UShootProjectile();
@@ -56,7 +56,7 @@ protected:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
-	float CurrentTime;
-	float CurrentShootTimer;
-	UWorld* World;
+	float CurrentTime = 0;
+	float CurrentShootTimer = 0;
+	TObjectPtr<UWorld> World;
 };

@@ -33,11 +33,6 @@
 AEnemyCharacter::AEnemyCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
-
-	Health = {};
-	World = nullptr;
-	Player = nullptr;
-	SpawnerManager = nullptr;
 }
 
 void AEnemyCharacter::BeginPlay()
@@ -65,7 +60,7 @@ void AEnemyCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-bool AEnemyCharacter::IsDead()
+bool AEnemyCharacter::IsDead() const
 {
 	return Health <= 0;
 }

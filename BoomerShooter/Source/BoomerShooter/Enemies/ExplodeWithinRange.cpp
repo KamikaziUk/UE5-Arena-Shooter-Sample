@@ -30,9 +30,6 @@
 UExplodeWithinRange::UExplodeWithinRange()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-
-	World = nullptr;
-	Player = nullptr;
 }
 
 void UExplodeWithinRange::BeginPlay()

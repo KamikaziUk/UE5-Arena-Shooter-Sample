@@ -34,11 +34,6 @@ ADamageZone::ADamageZone()
 	BoxCollider->SetCanEverAffectNavigation(false);
 	BoxCollider->CanCharacterStepUpOn = ECanBeCharacterBase::ECB_No;
 	RootComponent = BoxCollider;
-
-	PlayerInside = {};
-	CurrentDamageTime = {};
-	Player = nullptr;
-	World = nullptr;
 }
 
 void ADamageZone::BeginPlay()

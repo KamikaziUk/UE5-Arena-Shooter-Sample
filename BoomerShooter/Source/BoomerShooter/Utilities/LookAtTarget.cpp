@@ -29,7 +29,6 @@
 ULookAtTarget::ULookAtTarget()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-	Player = nullptr;
 }
 
 void ULookAtTarget::BeginPlay()
