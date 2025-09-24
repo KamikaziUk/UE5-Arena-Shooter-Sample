@@ -39,19 +39,19 @@ class BOOMERSHOOTER_API UInteractionPoint : public USceneComponent
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly, Category = Interactions)
-	float InteractDistance;
+	float InteractDistance = 0;
 
 public:	
 	UInteractionPoint();
 
 	UPROPERTY(BlueprintAssignable, Category = Events)
-	FInteractionPointActivatedDelegate OnInteractionPointActivated;
+	FInteractionPointActivatedDelegate OnInteractionPointActivated = {};
 
 	UPROPERTY(BlueprintAssignable, Category = Events)
-	FInteractionPointPlayerEnterDelegate OnInteractionPointPlayerEnter;
+	FInteractionPointPlayerEnterDelegate OnInteractionPointPlayerEnter = {};
 
 	UPROPERTY(BlueprintAssignable, Category = Events)
-	FInteractionPointPlayerExitDelegate OnInteractionPointPlayerExit;
+	FInteractionPointPlayerExitDelegate OnInteractionPointPlayerExit = {};
 
 protected:
 	virtual void BeginPlay() override;
@@ -62,6 +62,6 @@ private:
 	void OnPlayerInteractionPressed();
 
 private:
-	ABoomerShooterCharacter* Player;
-	bool PlayerInRange;
+	TObjectPtr<ABoomerShooterCharacter> Player = nullptr;
+	bool PlayerInRange = false;
 };

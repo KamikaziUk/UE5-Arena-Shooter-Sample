@@ -40,14 +40,14 @@ class BOOMERSHOOTER_API ADamageZone : public AActor
 
 	// Default components
 	UPROPERTY(EditDefaultsOnly, Category = Collider)
-	UBoxComponent* BoxCollider;
+	UBoxComponent* BoxCollider = nullptr;
 
 	// User properties
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	int PlayerDamage;
+	int PlayerDamage = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	float PlayerDamageTime;
+	float PlayerDamageTime = 0;
 
 public:
 	ADamageZone();
@@ -67,8 +67,8 @@ protected:
 		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 private:
-	bool PlayerInside;
-	float CurrentDamageTime;
-	ABoomerShooterCharacter* Player;
-	UWorld* World;
+	bool PlayerInside = false;
+	float CurrentDamageTime = 0;
+	ABoomerShooterCharacter* Player = nullptr;
+	UWorld* World = nullptr;
 };

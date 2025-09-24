@@ -32,9 +32,6 @@
 AEnemyAIController::AEnemyAIController()
 {
 	PrimaryActorTick.bCanEverTick = true;
-
-	World = nullptr;
-	Player = nullptr;
 }
 
 void AEnemyAIController::BeginPlay()

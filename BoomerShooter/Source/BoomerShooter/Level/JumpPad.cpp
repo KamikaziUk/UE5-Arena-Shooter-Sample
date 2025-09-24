@@ -30,9 +30,6 @@
 AJumpPad::AJumpPad()
 {
 	PrimaryActorTick.bCanEverTick = true;
-
-	World = nullptr;
-	Player = nullptr;
 }
 
 void AJumpPad::BeginPlay()

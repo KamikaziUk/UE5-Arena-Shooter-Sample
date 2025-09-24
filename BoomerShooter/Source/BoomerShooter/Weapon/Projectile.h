@@ -44,40 +44,40 @@ UCLASS()
 class BOOMERSHOOTER_API AProjectile : public AActor
 {
 	GENERATED_BODY()
-	
+
 	// Default component
 	UPROPERTY(EditDefaultsOnly)
-	UStaticMeshComponent* Mesh;
+	UStaticMeshComponent* Mesh = nullptr;
 
 	// User properties
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	float Speed;
+	float Speed = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	float CollisionSize;
+	float CollisionSize = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	bool EnemyBullet;
+	bool EnemyBullet = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category = Effects)
-	TSubclassOf<class AActor> Explosion;
+	TSubclassOf<class AActor> Explosion = {};
 
 	UPROPERTY(EditDefaultsOnly, Category = Effects)
-	USoundBase* ExplosionAudio;
+	USoundBase* ExplosionAudio = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = Effects)
-	TSubclassOf<class AActor> EnemyHit;
+	TSubclassOf<class AActor> EnemyHit = {};
 
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	EProjectileType ProjectileType;
+	EProjectileType ProjectileType = EProjectileType::Bounce;
 
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	float DamageRadius;
+	float DamageRadius = 0;
 
 public:	
 	AProjectile();
 
-	int BulletDamage;
+	int BulletDamage = 0;
 
 protected:
 	virtual void BeginPlay() override;
@@ -92,9 +92,10 @@ protected:
 		UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 private:
-	FVector PreviousLocation;
-	AEnemySpawnerManager* SpawnerManager;
-	UWorld* World;
-	AActor* PlayerActor;
-	ABoomerShooterCharacter* PlayerCharacter;
+	FVector PreviousLocation = {};
+
+	TObjectPtr<AEnemySpawnerManager> SpawnerManager = nullptr;
+	TObjectPtr<UWorld> World = nullptr;
+	TObjectPtr<AActor> PlayerActor = nullptr;
+	TObjectPtr<ABoomerShooterCharacter> PlayerCharacter = nullptr;
 };

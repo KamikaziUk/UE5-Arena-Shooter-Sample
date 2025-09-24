@@ -36,12 +36,6 @@ AProjectile::AProjectile()
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	RootComponent = Mesh;
-
-	PreviousLocation = {};
-	SpawnerManager = {};
-	World = nullptr;
-	PlayerActor = nullptr;
-	PlayerCharacter = nullptr;
 }
 
 void AProjectile::BeginPlay()

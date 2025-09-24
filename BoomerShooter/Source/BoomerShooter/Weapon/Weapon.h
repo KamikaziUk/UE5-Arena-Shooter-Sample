@@ -47,47 +47,47 @@ class BOOMERSHOOTER_API AWeapon : public AActor
 
 	// Default components
 	UPROPERTY(EditDefaultsOnly, Category = Weapon)
-	USkeletalMeshComponent* SkeletalMesh;
+	USkeletalMeshComponent* SkeletalMesh = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = Weapon)
-	UChildActorComponent* WeaponFireLocation;
+	UChildActorComponent* WeaponFireLocation = nullptr;
 
 	// User properties
 	UPROPERTY(EditDefaultsOnly, Category = Effects)
-	TSubclassOf<class AActor> GroundHit;
+	TSubclassOf<class AActor> GroundHit = {};
 
 	UPROPERTY(EditDefaultsOnly, Category = Effects)
-	TSubclassOf<class AActor> EnemyHit;
+	TSubclassOf<class AActor> EnemyHit = {};
 
 	UPROPERTY(EditDefaultsOnly, Category = Effects)
-	TSubclassOf<class AProjectile> Projectile;
+	TSubclassOf<class AProjectile> Projectile = {};
 
 	UPROPERTY(EditDefaultsOnly, Category = Effects)
-	USoundBase* ShootAudio;
+	USoundBase* ShootAudio = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = Effects)
-	USoundBase* HitSurfaceAudio;
+	USoundBase* HitSurfaceAudio = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = Effects)
-	class UNiagaraSystem* BulletTrace;
+	class UNiagaraSystem* BulletTrace = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	bool SpinWeapon;
+	bool SpinWeapon = false;
 
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	float ShootTime;
+	float ShootTime = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	int BulletsPerShot;
+	int BulletsPerShot = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	float SpreadDistance;
+	float SpreadDistance = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	int BulletDamage;
+	int BulletDamage = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	float RollAmount;
+	float RollAmount = 0;
 	
 public:	
 	AWeapon();
@@ -115,15 +115,16 @@ private:
 	void Fire();
 	bool IsFirePressed() const;
 
-	FVector TargetRelativeLocation;
-	ABoomerShooterCharacter* Character;
-	float CurrentShootTime;
-	FVector CurrentSpringVelocity;
-	bool FirePressed;
-	float CurrentRoll;
-	float CrosshairHitTime;
-	float ChangeWeaponTime;
-	UWorld* World;
-	APlayerController* PlayerController;
-	FVector CameraRaycastOffset;
+	TObjectPtr<ABoomerShooterCharacter> Character = nullptr;
+	TObjectPtr<UWorld> World = nullptr;
+	TObjectPtr<APlayerController> PlayerController = nullptr;
+
+	FVector TargetRelativeLocation = {};
+	float CurrentShootTime = 0;
+	FVector CurrentSpringVelocity = {};
+	bool FirePressed = false;
+	float CurrentRoll = 0;
+	float CrosshairHitTime = 0;
+	float ChangeWeaponTime = 0;
+	FVector CameraRaycastOffset = {};
 };

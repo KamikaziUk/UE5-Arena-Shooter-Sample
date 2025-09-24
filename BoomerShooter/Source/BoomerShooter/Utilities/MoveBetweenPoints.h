@@ -36,13 +36,13 @@ class BOOMERSHOOTER_API UMoveBetweenPoints : public USceneComponent
 
 	// User properties
 	UPROPERTY(EditDefaultsOnly, Category = Navigation)
-	TArray<FVector> MovePointsLocal;
+	TArray<FVector> MovePointsLocal = {};
 
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	float StopTime;
+	float StopTime = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	float MoveTime;
+	float MoveTime = 0;
 
 public:	
 	UMoveBetweenPoints();
@@ -52,7 +52,7 @@ protected:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;	
 
 private:
-	int CurrentPoint;
-	float CurrentMoveTime;
-	float CurrentStopTime;
+	int CurrentPoint = 0;
+	float CurrentMoveTime = 0;
+	float CurrentStopTime = 0;
 };

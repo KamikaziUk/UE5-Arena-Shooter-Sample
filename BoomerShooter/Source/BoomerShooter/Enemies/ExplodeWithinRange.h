@@ -36,13 +36,13 @@ class BOOMERSHOOTER_API UExplodeWithinRange : public USceneComponent
 
 	// User properties
 	UPROPERTY(EditDefaultsOnly, Category = Effects)
-	TSubclassOf<class AActor> Explosion;
+	TSubclassOf<class AActor> Explosion = {};
 
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	int PlayerDamage;
+	int PlayerDamage = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	int ExplodeRadius;
+	int ExplodeRadius = 0;
 
 public:	
 	UExplodeWithinRange();
@@ -52,6 +52,6 @@ protected:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
-	UWorld* World;
-	ACharacter* Player;
+	TObjectPtr<UWorld> World = nullptr;
+	TObjectPtr<ACharacter> Player = nullptr;
 };

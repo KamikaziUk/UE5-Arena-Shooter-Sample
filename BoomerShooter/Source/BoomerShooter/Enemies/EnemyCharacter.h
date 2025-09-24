@@ -43,23 +43,23 @@ class BOOMERSHOOTER_API AEnemyCharacter : public ACharacter
 
 	// User properties
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	int StartingHealth;
+	int StartingHealth = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
-	int PlayerScoreIncreaseOnKilled;
+	int PlayerScoreIncreaseOnKilled = 0;
 
 public:
 	AEnemyCharacter();
 
 	// User properties
 	UPROPERTY(EditDefaultsOnly, Category = Navigation)
-	AActor* LineMoverStartPoint;
+	AActor* LineMoverStartPoint = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = Navigation)
-	AActor* LineMoverEndPoint;
+	AActor* LineMoverEndPoint = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = Effects)
-	USoundBase* DamageAudio;
+	USoundBase* DamageAudio = nullptr;
 
 	void DamageEnemy(int BulletDamage);
 	bool IsDead() const;
@@ -71,8 +71,8 @@ protected:
 	virtual void PossessedBy(AController* NewController) override;
 
 private:
-	int Health;
-	UWorld* World;
-	ABoomerShooterCharacter* Player;
-	AEnemySpawnerManager* SpawnerManager;
+	int Health = 0;
+	UWorld* World = nullptr;
+	ABoomerShooterCharacter* Player = nullptr;
+	AEnemySpawnerManager* SpawnerManager = nullptr;
 };
